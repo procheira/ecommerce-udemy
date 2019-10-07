@@ -20,7 +20,7 @@ class ProductSchema extends Schema {
         .onDelete('cascade')
     })
 
-    this.create('image_products', (table) => {
+    this.create('image_product', (table) => {
       table.increments()
       table.integer('image_id').unsigned
       table.integer('product_id').unsigned
@@ -38,10 +38,29 @@ class ProductSchema extends Schema {
         .onDelete('cascade')
       })
 
+  this.create('category_product', (table) => {
+      table.increments()
+      table.integer('category_id').unsigned
+      table.integer('product_id').unsigned
+
+      table  
+        .foreign('category_id')
+        .references('id')
+        .inTable('categories')
+        .onDelete('cascade')
+
+      table  
+        .foreign('product_id')
+        .references('id')
+        .inTable('products')
+        .onDelete('cascade')
+      })
+
   }
 
   down () {
-    this.drop('image_products')
+    this.drop('category_product')
+    this.drop('image_product')
     this.drop('products')
   }
 }
